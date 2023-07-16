@@ -1,5 +1,7 @@
 package clases;
 
+import java.util.Objects;
+
 public class Movement
 {
     //Atributos de la clase Movement
@@ -8,49 +10,38 @@ public class Movement
     private String category;
     private int power; //Potencia
     private int precision;
-    private int ppCurrent; //PpActual
 	private int ppTotal;
-    private int increasePpTotal;
 
     //Constructor por defecto (Añade el ataque placaje)
     public Movement()
     {
-        init();
+        this.init("Placaje", "Normal", "Físico", 35, 95, 35);
     }
     
-    private void init()
+    public Movement(String name, String type, String category, int power, int precision, int ppTotal)
     {
-        setName("Placaje");
-        setType("Normal");
-        setCategory("Físico");
-        setPower(35);
-        setPrecision(95);
-        setPpCurrent(35);
-        setPpTotal(35);
-        setIncreasePpTotal(0);
+        this.init(name, type, category, power, precision, ppTotal);
+    }
+
+    //Constructor por defecto (Añade el ataque placaje)
+    public Movement(Movement movement)
+    {
+        this.init(movement.getName(), movement.getType(), movement.getCategory(),
+        		movement.getPower(), movement.getPrecision(), movement.getPpTotal());
     }
     
-    public Movement(String aName, String aType, String aCategory, int aPower, int aPrecision,
-    		int aPpCurrent, int aPpTotal, int aIncreasePpTotal)
+    private void init(String name, String type, String category, int power, int precision, int ppTotal)
     {
-        init(aName, aType, aCategory, aPower, aPrecision, aPpCurrent, aPpTotal, aIncreasePpTotal);
-    }
-    
-    private void init(String aName, String aType, String aCategory, int aPower, int aPrecision,
-    		int aPpCurrent, int aPpTotal, int aIncreasePpTotal)
-    {
-        setName(aName);
-        setType(aType);
-        setCategory(aCategory);
-        setPower(aPower);
-        setPrecision(aPrecision);
-        setPpCurrent(aPpCurrent);
-        setPpTotal(aPpTotal);
-        setIncreasePpTotal(aIncreasePpTotal);
+        this.setName(name);
+        this.setType(type);
+        this.setCategory(category);
+        this.setPower(power);
+        this.setPrecision(precision);
+        this.setPpTotal(ppTotal);
     }
     
     public String getName() {
-		return name;
+		return this.name;
 	}
 
     public void setName(String name) {
@@ -58,7 +49,7 @@ public class Movement
 	}
     
 	public String getType() {
-		return type;
+		return this.type;
 	}
 	
 	public void setType(String type) {
@@ -66,7 +57,7 @@ public class Movement
 	}
 	
 	public String getCategory() {
-		return category;
+		return this.category;
 	}
 	
 	public void setCategory(String category) {
@@ -74,7 +65,7 @@ public class Movement
 	}
 	
 	public int getPower() {
-		return power;
+		return this.power;
 	}
 	
 	public void setPower(int power) {
@@ -82,79 +73,43 @@ public class Movement
 	}
 	
 	public int getPrecision() {
-		return precision;
+		return this.precision;
 	}
 	
 	public void setPrecision(int precision) {
 		this.precision = precision;
 	}
 	
-	public int getPpCurrent() {
-		return ppCurrent;
-	}
-	
-	public void setPpCurrent(int ppCurrent) {
-		this.ppCurrent = ppCurrent;
-	}
-	
 	public int getPpTotal() {
-		return ppTotal;
+		return this.ppTotal;
 	}
 	
 	public void setPpTotal(int ppTotal) {
 		this.ppTotal = ppTotal;
 	}
-	
-	public int getIncreasePpTotal() {
-		return increasePpTotal;
-	}
-	
-	public void setIncreasePpTotal(int increasePpTotal) {
-		this.increasePpTotal = increasePpTotal;
-	}
 
-
-    //Funciones para modificar los Pp
-    public boolean lowerPp()
+    public String toString()
     {
-        if (this.ppCurrent > 0)
-        {
-            this.ppCurrent--;
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public boolean restaurePp(int i)
-    {
-        if (this.ppCurrent < this.ppTotal)
-        {
-            this.ppCurrent += i;
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public boolean upPpTotal(int i)
-    {
-        if (this.increasePpTotal < 3)
-        {
-            this.increasePpTotal++;
-            this.ppTotal += i;
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public String toString(Movement aMovement)
-    {
-        String cad = "- " + aMovement.getName()
-                + "\nPotencia: " + aMovement.getPower()
-                + " (PP: " + aMovement.getPpCurrent()
-                + " / " + aMovement.getPpTotal() + ")";
+    	String patron = "- %s\n\t%-9s | %-8s | %3d | %3d %% | %2d";
+        String cad = String.format(patron, this.getName(), this.getType(), this.getCategory(),
+        		this.getPower(), this.getPrecision(), this.getPpTotal());
         return cad;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.getName());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Movement other = (Movement) obj;
+		return Objects.equals(this.getName(), other.getName());
+	}
 }

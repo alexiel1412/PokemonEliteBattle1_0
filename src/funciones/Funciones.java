@@ -17,72 +17,10 @@ public class Funciones
         sc.nextLine();
 	}
 	
-    public static Region createBasicsData(String cad)
+    public static Region createBasicsData(String elecRegion)
     {
-    	cad = cad.toLowerCase();
-    	
-    	if (cad.equals("kanto") || cad.equals("1"))
-            return new Region("Kanto",
-				   new Trainer("Gary"),
-				   new Pokemon(1, "Bulbasaur", "Planta", "Veneno"),
-				   new Pokemon(4, "Charmander", "Fuego", ""),
-				   new Pokemon(7, "Squirtle", "Agua", ""));
-    	
-		else if (cad.equals("jhoto") || cad.equals("2"))
-	        return new Region("Jhoto",
-				   new Trainer("Silver"),
-				   new Pokemon(152, "Chikorita", "Planta", ""),
-				   new Pokemon(155, "Cyndaquil", "Fuego", ""),
-				   new Pokemon(158, "Totodile", "Agua", ""));
-    	
-		else if (cad.equals("hoenn") || cad.equals("3"))
-			return new Region("Hoenn",
-				   new Trainer("Ruby"),
-				   new Pokemon(252, "Treecko", "Planta", ""),
-				   new Pokemon(255, "Torchic", "Fuego", ""),
-				   new Pokemon(258, "Mudkip", "Agua", ""));
-    	
-		else if (cad.equals("shinno") || cad.equals("4"))
-			return new Region("Shinno",
-				   new Trainer("Paul"),
-				   new Pokemon(387, "Tortuig", "Planta", ""),
-				   new Pokemon(390, "Chimchar", "Fuego", ""),
-				   new Pokemon(383, "Piplup", "Agua", ""));
-    	
-		else if (cad.equals("teselia") || cad.equals("5"))
-			return new Region("Teselia",
-				   new Trainer("N"),
-				   new Pokemon(495, "Snivy", "Planta", ""),
-				   new Pokemon(498, "Tepig", "Fuego", ""),
-				   new Pokemon(501, "Oshawott", "Agua", ""));
-    	
-		else if (cad.equals("kalos") || cad.equals("6"))
-			return new Region("Kalos",
-				   new Trainer("Serena"),
-				   new Pokemon(650, "Chespin", "Planta", ""),
-				   new Pokemon(653, "Fennekin", "Fuego", ""),
-				   new Pokemon(656, "Froakie", "Agua", ""));
-    	
-		else if (cad.equals("alola") || cad.equals("7"))
-			return new Region("Alola",
-				   new Trainer("Gladion"),
-				   new Pokemon(722, "Rowlet", "Planta", "Volador"),
-				   new Pokemon(725, "Litten", "Fuego", ""),
-				   new Pokemon(728, "Popplio", "Agua", ""));
-    	
-		else if (cad.equals("galar") || cad.equals("8"))
-			return new Region("Galar",
-				   new Trainer("Lionel"),
-				   new Pokemon(810, "Grookey", "Planta", ""),
-				   new Pokemon(812, "Scorbunny", "Fuego", ""),
-				   new Pokemon(815, "Sobble", "Agua", ""));
-
-		// else if (cad.equals("paldea") || cad.equals("9"))
-		return new Region("Paldea",
-			   new Trainer("Mencia"),
-			   new Pokemon(906, "Sprigatito", "Planta", ""),
-			   new Pokemon(989, "Fuecoco", "Fuego", ""),
-			   new Pokemon(992, "Quaxly", "Agua", ""));
+    	elecRegion = elecRegion.toLowerCase();
+    	return new Region (elecRegion);
     }
 
 	public static String pedirNombre()
@@ -149,23 +87,23 @@ public class Funciones
 	public static String convertirRegion(String region)
 	{
 		if (region.equals("1"))
-			region = "Kanto";
+			region = "kanto";
 		if (region.equals("2"))
-			region = "Jhoto";
+			region = "jhoto";
 		if (region.equals("3"))
-			region = "Hoenn";
+			region = "hoenn";
 		if (region.equals("4"))
-			region = "Shinno";
+			region = "sinnoh";
 		if (region.equals("5"))
-			region = "Teselia";
+			region = "teselia";
 		if (region.equals("6"))
-			region = "Kalos";
+			region = "kalos";
 		if (region.equals("7"))
-			region = "Alola";
+			region = "alola";
 		if (region.equals("8"))
-			region = "Galar";
+			region = "galar";
 		if (region.equals("9"))
-			region = "Paldea";
+			region = "paldea";
 		return region;
 	}
 

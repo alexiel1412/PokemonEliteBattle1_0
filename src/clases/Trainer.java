@@ -10,71 +10,61 @@ public class Trainer
     private String name;
     private String region;
     private int money;
-    private ArrayList<Pokemon> equipoPokemon;
+    private ArrayList<Especimen> equipoPokemon;
     //private ArrayList<String> medals;
 
     //Constructor por defecto de entrenadores
     public Trainer()
     {
-        this.equipoPokemon = new ArrayList<Pokemon>();
-        this.equipoPokemon.add(new Pokemon());
-        init();
-    }
-    
-    private void init()
-    {
-        this.setId(this.prepareID(++numTrainer));
-        this.setName("Entrenador " + numTrainer);
-        this.setRegion("");
-        this.setMoney(0);
+        this.equipoPokemon = new ArrayList<Especimen>();
+        init("", "", 0, this.equipoPokemon);
     }
     
     public Trainer(String name)
     {
-        this.equipoPokemon = new ArrayList<Pokemon>();
-        init(name);
+        this.equipoPokemon = new ArrayList<Especimen>();
+        Trainer trainer = this.construirTrainer(name);
+        init(trainer);
     }
     
-    private void init(String name)
+    public Trainer(Trainer trainer)
     {
-        this.setId(this.prepareID(++numTrainer));
-        this.setName(name);
-        this.setRegion("Kanto");
-        this.setMoney(0);
-        this.setAPokemon(new Pokemon());
+        init(trainer);
     }
 
-    //Constructor para crear un nuevo entrenador pasándole sus datos iniciales
-    public Trainer(String aName, String aRegion, Pokemon aInitialPokemon)
+	//Constructor para crear un nuevo entrenador pasándole sus datos iniciales
+    public Trainer(String name, String region, int money, Especimen aInitialPokemon)
     {
-        this.equipoPokemon = new ArrayList<Pokemon>();
-        init(aName, aRegion, aInitialPokemon);
-    }
-    
-    private void init(String aName, String aRegion, Pokemon aInitialPokemon)
-    {
-        this.setId(this.prepareID(++numTrainer));
-        this.setName(aName);
-        this.setRegion(aRegion);
-        this.setMoney(3000);
+        this.equipoPokemon = new ArrayList<Especimen>();
         this.setAPokemon(aInitialPokemon);
+        init(name, region, money, this.getEquipoPokemon());
     }
     
     //Constructor para instanciar a un entrenador del que poseemos todos sus datos
-    public Trainer(String aName, String aRegion, int aMoney, ArrayList<Pokemon> aPokemonsList)
+    public Trainer(String name, String region, int money, ArrayList<Especimen> equipoPokemon)
     {
-        this.equipoPokemon = new ArrayList<Pokemon>();
-        init(aName, aRegion, aMoney, aPokemonsList);
+        this.equipoPokemon = new ArrayList<Especimen>();
+        init(name, region, money, equipoPokemon);
     }
 
-    private void init(String aName, String aRegion, int aMoney, ArrayList<Pokemon> aPokemonsList)
+    private void init(String name, String region, int money, ArrayList<Especimen> equipoPokemon)
     {
+        this.equipoPokemon = new ArrayList<Especimen>();
         this.setId(this.prepareID(++numTrainer));
-        this.setName(aName);
-        this.setRegion(aRegion);
-        this.setMoney(aMoney);
-        for (int i = 0; i < aPokemonsList.size(); i++)
-            this.getEquipoPokemons().add(aPokemonsList.get(i));
+        this.setName(name);
+        this.setRegion(region);
+        this.setMoney(money);
+        this.setEquipoPokemon(equipoPokemon);
+    }
+
+    private void init(Trainer trainer)
+    {
+        this.equipoPokemon = new ArrayList<Especimen>();
+        this.setId(this.prepareID(++numTrainer));
+        this.setName(trainer.getName());
+        this.setRegion(trainer.getRegion());
+        this.setMoney(trainer.getMoney());
+        this.setEquipoPokemon(trainer.getEquipoPokemon());
     }
 
 	public static int getNumTrainer() {
@@ -118,30 +108,30 @@ public class Trainer
 	}
 
     //Funciones para modificar los datos de los pokemons que posee
-    public ArrayList<Pokemon> getEquipoPokemons()
+    public ArrayList<Especimen> getEquipoPokemon()
     {
         return this.equipoPokemon;
     }
 
-	public void setEquipoPokemon(ArrayList<Pokemon> equipoPokemon) {
+	public void setEquipoPokemon(ArrayList<Especimen> equipoPokemon) {
 		this.equipoPokemon = equipoPokemon;
 	}
     
-    public Pokemon getAPokemon(int i)
+    public Especimen getAPokemon(int i)
     {
-        return this.getEquipoPokemons().get(i);
+        return this.getEquipoPokemon().get(i);
     }
     
-    public void setAPokemon(Pokemon pokemon)
+    public void setAPokemon(Especimen especimen)
     {
-        this.getEquipoPokemons().add(pokemon);
+        this.getEquipoPokemon().add(especimen);
     }
     
     public boolean removePokemon(int i)
     {
-        if (this.getEquipoPokemons().size() > 1)
+        if (this.getEquipoPokemon().size() > 1)
         {
-            this.getEquipoPokemons().remove(i);
+            this.getEquipoPokemon().remove(i);
             return true;
         }
         else
@@ -156,7 +146,7 @@ public class Trainer
                 + "\nRegion: " + this.getRegion() + "."  /////////////////////////////////////
                 + "\nDinero: " + this.getMoney() + "."
                 + "\nPokemons:";
-        for (int i = 0; i < this.getEquipoPokemons().size(); i++)
+        for (int i = 0; i < this.getEquipoPokemon().size(); i++)
         {
         	cad = cad + "\nPokemon " + (i+1) + ": " + this.getAPokemon(i).getName() + ".";
         }
@@ -181,4 +171,54 @@ public class Trainer
                 + " / " + this.getAPokemon(i).getPhTotal() + ".";
         return cad;
     }
+
+    private Trainer construirTrainer(String name)
+    {
+		name = name.toLowerCase();
+		String region = "";
+		
+	    switch (name)
+	    {
+	    	//Kanto
+	    	case "gary":
+	    		region = "Kanto";
+	    		break;
+	    	//Johto
+	    	case "silver":
+	    		region = "johto";
+	    		break;
+	    	//Hoenn
+	    	case "ruby":
+	    		region = "hoenn";
+	    		break;
+	    	//Sinnoh
+	    	case "paul":
+	    		region = "sinnoh";
+	    		break;
+	    	//Teselia
+	    	case "n":
+	    		region = "teselia";
+	    		return new Trainer(name.substring(0, 1).toUpperCase(), region, 3000,
+	    				this.getEquipoPokemon());
+    		//Kalos
+	    	case "serena":
+	    		region = "kalos";
+	    		break;
+	    	//Alola
+	    	case "gladion":
+	    		region = "alola";
+	    		break;
+	    	//Galar
+	    	case "lionel":
+	    		region = "galar";
+	    		break;
+	    	//Paldea
+	    	default:
+	    		region = "Mencia";
+	    		break;
+	    }
+	
+		return new Trainer(name.substring(0, 1).toUpperCase() + name.substring(1, name.length()), region, 3000,
+				this.getEquipoPokemon());
+	}
 }

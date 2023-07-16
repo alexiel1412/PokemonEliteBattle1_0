@@ -1,205 +1,102 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Pokemon
 {
     //Atributos de la clase Pokemon
     private String numPokedex;
     private String name;
-    private int level;
-    private String sex;
     private String type1;
     private String type2;
-    private String nameTrainer;
-    private int experience;
-    private int expNextLevel;
-    private String object;
-    //private GregorianCalendar dateCapture;
-    private String hability;
-
-	//Puntos de salud actual y total
-    private int phCurrent;
-    private int phTotal;
-    private int attack;
-    private int defense;
-    private int spAttack;
-    private int spDefense;
-    private int velocity;
-
-    private ArrayList <Movement> movements;
-
-
+    private Ability ability1;
+    private Ability ability2;
+    private Ability abilityHidden;
+    
+    private ArrayList <Movement> movementsPorNivel;
 
     //Constructor por defecto
     public Pokemon()
     {
         //this.dateCapture = new GregorianCalendar ();
-        this.movements = new ArrayList<Movement>();
-        movements.add(new Movement());
-        init();
+        this.movementsPorNivel = new ArrayList<Movement>();
+        init("", "", "", "", new Ability(), new Ability(), new Ability(), this.getAllMovementsPorNivel());
     }
     
-    private void init()
-    {
-    	this.setNumPokedex(1);
-        this.setName("");
-        this.setLevel(5);
-        this.setSex("");
-        this.setType1("Normal");
-        this.setType2("");
-        this.setNameTrainer("");
-        this.setExperience(125);
-        this.setExpNextLevel(91);
-        this.setObject("");
-        this.setHability("");
-
-        this.setPhCurrent(24);
-        this.setPhTotal(24);
-        this.setAttack(7);
-        this.setDefense(8);
-        this.setSpAttack(7);
-        this.setSpDefense(8);
-        this.setVelocity(7);
-    }
-    //Constructor por defecto
     public Pokemon(String name)
     {
         //this.dateCapture = new GregorianCalendar ();
-        this.movements = new ArrayList<Movement>();
-        movements.add(new Movement());
-        init(name);
+    	Pokemon pokemon = this.construirIniciales(name);
+        this.movementsPorNivel = new ArrayList<Movement>();
+        init(pokemon);
     }
+
+	public Pokemon(String numPokedex, String name, String type1, String type2,
+			Ability ability1, Ability ability2, Ability abilityHidden)
+	{
+        this.movementsPorNivel = new ArrayList<Movement>();
+        init(numPokedex, name, type1, type2, ability1, ability2, abilityHidden, this.movementsPorNivel);
+	}
     
-    private void init(String name)
+	public Pokemon(String numPokedex, String name, String type1, String type2,
+			Ability ability1, Ability ability2, Ability abilityHidden, ArrayList<Movement> movementsPorNivel)
+	{
+        this.movementsPorNivel = new ArrayList<Movement>();
+        this.init(numPokedex, name, type1, type2, ability1, ability2, abilityHidden, movementsPorNivel);
+	}
+    
+	public Pokemon(Pokemon pokemon)
+	{
+        this.movementsPorNivel = new ArrayList<Movement>();
+        this.init(pokemon);
+	}
+    
+    private void init(String numPokedex, String name, String type1, String type2,
+    		Ability ability1, Ability ability2, Ability abilityHidden, ArrayList<Movement> movementsPorNivel)
     {
-    	this.setNumPokedex(1);
+    	this.setNumPokedex(numPokedex);
         this.setName(name);
-        this.setLevel(5);
-        this.setSex("");
-        this.setType1("Normal");
-        this.setType2("");
-        this.setNameTrainer("");
-        this.setExperience(125);
-        this.setExpNextLevel(91);
-        this.setObject("");
-        this.setHability("");
-
-        this.setPhCurrent(24);
-        this.setPhTotal(24);
-        this.setAttack(7);
-        this.setDefense(8);
-        this.setSpAttack(7);
-        this.setSpDefense(8);
-        this.setVelocity(7);
-    }
-
-    //Constructor de un pokemon básico, dando solo su nombre y sus tipos (para pruebas)
-    public Pokemon(int numPokedex, String aName, String type1, String type2)
-    {
-       // this.dateCapture = new GregorianCalendar ();
-        this.movements = new ArrayList<Movement>();
-        movements.add(new Movement());
-        init(numPokedex, aName, type1, type2);
-    }
-    
-    private void init(int numPokedex, String aName, String type1, String type2)
-    {
-    	System.out.println("Hola");
-    	this.setNumPokedex(numPokedex);
-        this.setName(aName);
-        this.setLevel(5);
-        this.setSex("");
         this.setType1(type1);
         this.setType2(type2);
-        this.setNameTrainer("Trainer");
-        this.setExperience(125);
-        this.setExpNextLevel(91);
-        this.setObject("");
-        this.setHability("");
-
-        this.setPhCurrent(24);
-        this.setPhTotal(24);
-        this.setAttack(7);
-        this.setDefense(8);
-        this.setSpAttack(7);
-        this.setSpDefense(8);
-        this.setVelocity(7);
-        this.setAMovement(new Movement());
-    }
-
-    //Constructor de un pokemon pasando todos sus datos)
-    public Pokemon(int numPokedex, String aName, int level, String sex, String type1, String type2, String nameTrainer,
-    		int experience, int expNextLevel, String object, String hability, int phCurrent, int phTotal,
-    		int attack, int defense, int spAttack, int spDefense, int velocity, ArrayList<Movement> movements)
-    {
-       // this.dateCapture = new GregorianCalendar ();
-        this.movements = new ArrayList<Movement>();
-        movements.add(new Movement());
-        init(numPokedex, aName, level, sex, type1, type2, nameTrainer, experience, expNextLevel, object, hability, phCurrent, phTotal,
-        		attack, defense, spAttack, spDefense, velocity, movements);
+        this.setAbility1(ability1);
+        this.setAbility2(ability2);
+        this.setAbilityHidden(abilityHidden);
+        
+        this.setAllMovementsPorNivel(movementsPorNivel);
     }
     
-    private void init(int numPokedex, String aName, int level, String sex, String type1, String type2, String nameTrainer,
-    		int experience, int expNextLevel, String object, String hability, int phCurrent, int phTotal,
-    		int attack, int defense, int spAttack, int spDefense, int velocity, ArrayList<Movement> movements)
+    private void init(Pokemon pokemon)
     {
-    	this.setNumPokedex(numPokedex);
-        this.setName(aName);
-        this.setLevel(level);
-        this.setSex(sex);
-        this.setType1(type1);
-        this.setType2(type2);
-        this.setNameTrainer(nameTrainer);
-        this.setExperience(experience);
-        this.setExpNextLevel(expNextLevel);
-        this.setObject(object);
-        this.setHability(hability);
-
-        this.setPhCurrent(phCurrent);
-        this.setPhTotal(phTotal);
-        this.setAttack(attack);
-        this.setDefense(defense);
-        this.setSpAttack(spAttack);
-        this.setSpDefense(spDefense);
-        this.setVelocity(velocity);
-        this.setAllMovements(movements);
+    	this.setNumPokedex(pokemon.getNumPokedex());
+        this.setName(pokemon.getName());
+        this.setType1(pokemon.getType1());
+        this.setType2(pokemon.getType2());
+        this.setAbility1(pokemon.getAbility1());
+        this.setAbility2(pokemon.getAbility2());
+        this.setAbilityHidden(pokemon.getAbilityHidden());
+        
+        this.setAllMovementsPorNivel(pokemon.getAllMovementsPorNivel());
     }
-	
+
 	public String getNumPokedex() {
-		return numPokedex;
+		return this.numPokedex;
 	}
 
-	public void setNumPokedex(int numPokedex) {
-		this.numPokedex = this.prepareNumPokedex(numPokedex);
+	public void setNumPokedex(String numPokedex) {
+		this.numPokedex = numPokedex;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-	public String getSex() {
-		return sex;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-
 	public String getType1() {
-		return type1;
+		return this.type1;
 	}
 
 	public void setType1(String type1) {
@@ -207,171 +104,267 @@ public class Pokemon
 	}
 
 	public String getType2() {
-		return type2;
+		return this.type2;
 	}
 
 	public void setType2(String type2) {
 		this.type2 = type2;
 	}
 
-	public String getNameTrainer() {
-		return nameTrainer;
+	public Ability getAbility1() {
+		return this.ability1;
 	}
 
-	public void setNameTrainer(String nameTrainer) {
-		this.nameTrainer = nameTrainer;
+	public void setAbility1(Ability ability1) {
+		this.ability1 = ability1;
 	}
 
-	public int getExperience() {
-		return experience;
+	public Ability getAbility2() {
+		return this.ability2;
 	}
 
-	public void setExperience(int experience) {
-		this.experience = experience;
+	public void setAbility2(Ability ability2) {
+		this.ability2 = ability2;
 	}
 
-	public int getExpNextLevel() {
-		return expNextLevel;
+	public Ability getAbilityHidden() {
+		return this.abilityHidden;
 	}
 
-	public void setExpNextLevel(int expNextLevel) {
-		this.expNextLevel = expNextLevel;
+	public void setAbilityHidden(Ability abilityHidden) {
+		this.abilityHidden = abilityHidden;
 	}
 
-	public String getObject() {
-		return object;
+	public ArrayList<Movement> getAllMovementsPorNivel() {
+		return this.movementsPorNivel;
 	}
 
-	public void setObject(String object) {
-		this.object = object;
+	public void setAllMovementsPorNivel(ArrayList<Movement> movementsPorNivel) {
+		this.movementsPorNivel = movementsPorNivel;
 	}
 
-	public String getHability() {
-		return hability;
-	}
-
-	public void setHability(String hability) {
-		this.hability = hability;
-	}
-
-	public int getPhCurrent() {
-		return phCurrent;
-	}
-
-	public void setPhCurrent(int phCurrent) {
-		this.phCurrent = phCurrent;
-	}
-
-	public int getPhTotal() {
-		return phTotal;
-	}
-
-	public void setPhTotal(int phTotal) {
-		this.phTotal = phTotal;
-	}
-
-	public int getAttack() {
-		return attack;
-	}
-
-	public void setAttack(int attack) {
-		this.attack = attack;
-	}
-
-	public int getDefense() {
-		return defense;
-	}
-
-	public void setDefense(int defense) {
-		this.defense = defense;
-	}
-
-	public int getSpAttack() {
-		return spAttack;
-	}
-
-	public void setSpAttack(int spAttack) {
-		this.spAttack = spAttack;
-	}
-
-	public int getSpDefense() {
-		return spDefense;
-	}
-
-	public void setSpDefense(int spDefense) {
-		this.spDefense = spDefense;
-	}
-
-	public int getVelocity() {
-		return velocity;
-	}
-
-	public void setVelocity(int velocity) {
-		this.velocity = velocity;
-	}
-
-	public ArrayList<Movement> getAllMovements() {
-		return movements;
-	}
-
-	public Movement getAMovement(int i) {
-		return movements.get(i);
-	}
-
-	public void setAllMovements(ArrayList<Movement> movements) {
-		this.movements = movements;
+	public Movement getAMovementPorNivel(int i) {
+		return this.movementsPorNivel.get(i);
 	}
     
-    public void setAMovement(Movement aMovement)
+    public void setAMovementPorNivel(Movement movement)
     {
-        this.getAllMovements().add(aMovement);
+        this.getAllMovementsPorNivel().add(movement);
     }
     
-    public boolean removeMovement(int i)
+    public boolean removeAMovementPorNivel(int i)
     {
-        if (this.getAllMovements().size() > 1)
+        if (this.getAllMovementsPorNivel().size() > 1)
         {
-            this.getAllMovements().remove(i);
+            this.getAllMovementsPorNivel().remove(i);
             return true;
         }
         else
             return false;
     }
 
-    public String toString()
+	@Override
+	public String toString()
+	{
+		return "Pokedex: " + this.getNumPokedex()
+	            + "\nNombre: " + this.getName()
+	            + "\nTipo 1: " + this.getType1()
+	            + " | Tipo 2: " + this.getType2()
+	            + "\nHab 1: " + this.getAbility1()
+	            + " | Hab 2: " + this.getAbility2()
+	            + " | Hab oculta: " + this.getAbilityHidden();
+	}
+
+    public String mostrarMovimientosPorNivel() //ToString para los movimientos por nivel
     {
-        String cad = "Datos del Pokémon:"
-            + "\nPokedex: " + this.getNumPokedex()
-            + "\nNombre: " + this.getName()
-            + "\nNivel: " + this.getLevel()
-            + "\nSexo: " + this.getSex()
-            + "\nTipo 1: " + this.getType1()
-            + "\tTipo 2: " + this.getType2()
-            + "\nEntrenador: " + this.getNameTrainer()
-            + "\nObjeto: " + this.getObject()
-            + "\n\nPH: " + this.getPhCurrent() + "/" + this.getPhTotal()
-            + "\nAtaque: " + this.getAttack()
-            + "\tAtaque especial: " + this.getSpAttack()
-            + "\nDefensa: " + this.getDefense()
-            + "\tDefensa especial: " + this.getSpDefense()
-            + "\nVelocidad: " + this.getVelocity()
-            + "\nMovimientos: ";
-        for (int i = 0; i < this.getAllMovements().size(); i++)
-        {
-        	cad = cad + "\n- " + this.getAMovement(i).getName()
-        			+" (" + this.getAMovement(i).getPpCurrent() + "/" + this.getAMovement(i).getPpTotal() + ")";
-        }
-        return cad;
+        String cad = "";
+
+        cad = "\nMovimientos por nivel: ";
+	    for (int i = 0; i < this.getAllMovementsPorNivel().size(); i++)
+	    {
+	    	cad = cad + this.getAMovementPorNivel(i) + "\n";
+	    }
+	    return cad;
     }
     
-    //Funcion para añadir ceros al id hasta que se vea como 5 digitos
-    public String prepareNumPokedex(int aNumPokedex)
+    @Override
+	public int hashCode()
     {
-        String cad = String.valueOf(aNumPokedex);
-        while (cad.length() < 3)
+		return Objects.hash(this.getNumPokedex());
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pokemon other = (Pokemon) obj;
+		return Objects.equals(this.getNumPokedex(), other.getNumPokedex());
+	}
+
+	//Funcion para añadir ceros al id hasta que se vea como 5 digitos
+    public String prepareNumPokedex()
+    {
+        String cad = String.valueOf(this.getNumPokedex());
+        while (cad.length() < 4)
         {
         	cad = 0 + cad;
         }
         return cad;
     }
+    
+	private Pokemon construirIniciales(String name)
+	{
+		name = name.toLowerCase();
+		String numPokedex = "";
+		String type1 = "";
+		String type2 = "";
+		String ability1 = "";
+		String abilityHidden = "";
+		if (name == "bulbasaur" || name == "chikorita" || name == "treecko" || name == "turtwig" || name == "snivy" ||
+				name == "chespin" || name == "rowlet" || name == "grookey" || name == "sprigatito")
+		{
+			type1 = "Planta";
+			ability1 = "Espesura";
+		}
+		else if (name == "charmander" || name == "cyndaquil" || name == "torchic" || name == "chimchar" || name == "tepig" ||
+				name == "fennekin" || name == "litten" || name == "scorbunny" || name == "fuecoco")
+		{
+			type1 = "Fuego";
+			ability1 = "Mar llamas";
+		}
+		else
+		{
+			type1 = "Agua";
+			ability1 = "Torrente";
+		}
+	    switch (name)
+	    {
+	    	//Kanto
+	    	case "bulbasaur":
+	    		numPokedex = "1";
+	    		type2 = "Veneno";
+	    		abilityHidden = "Clorofila";
+	    		break;
+	    	case "charmander":
+	    		numPokedex = "4";
+	    		abilityHidden = "Poder solar";
+	    		break;
+	    	case "squirtle":
+	    		numPokedex = "7";
+	    		abilityHidden = "Cura lluvia";
+	    		break;
+	    	//Johto
+	    	case "chikorita":
+	    		numPokedex = "152";
+	    		abilityHidden = "Defensa hoja";
+	    		break;
+	    	case "cyndaquil":
+	    		numPokedex = "155";
+	    		abilityHidden = "Absorve fuego";
+	    		break;
+	    	case "totodile":
+	    		numPokedex = "158";
+	    		abilityHidden = "Potencia bruta";
+	    		break;
+	    	//Hoenn
+	    	case "treecko":
+	    		numPokedex = "252";
+	    		abilityHidden = "Liviano";
+	    		break;
+	    	case "torchic":
+	    		numPokedex = "255";
+	    		abilityHidden = "Impulso";
+	    		break;
+	    	case "mudkip":
+	    		numPokedex = "258";
+	    		abilityHidden = "Humedad";
+	    		break;
+	    	//Sinnoh
+	    	case "turtwig":
+	    		numPokedex = "387";
+	    		abilityHidden = "Caparazón";
+	    		break;
+	    	case "chimchar":
+	    		numPokedex = "390";
+	    		abilityHidden = "Puño férreo";
+	    		break;
+	    	case "piplup":
+	    		numPokedex = "393";
+	    		abilityHidden = "Competitivo";
+	    		break;
+	    	//Teselia
+	    	case "snivy":
+	    		numPokedex = "495";
+	    		abilityHidden = "Respondón";
+	    		break;
+	    	case "tepig":
+	    		numPokedex = "498";
+	    		abilityHidden = "Sebo";
+	    		break;
+	    	case "oshawott":
+	    		numPokedex = "501";
+	    		abilityHidden = "Caparazón";
+	    		break;
+    		//Kalos
+	    	case "chespin":
+	    		numPokedex = "650";
+	    		abilityHidden = "Antibalas";
+	    		break;
+	    	case "fennekin":
+	    		numPokedex = "653";
+	    		abilityHidden = "Prestidigitador";
+	    		break;
+	    	case "froakie":
+	    		numPokedex = "656";
+	    		abilityHidden = "Mutatipo";
+	    		break;
+	    	//Alola
+	    	case "rowlet":
+	    		numPokedex = "722";
+	    		type2 = "Volador";
+	    		abilityHidden = "Remoto";
+	    		break;
+	    	case "litten":
+	    		numPokedex = "725";
+	    		abilityHidden = "Intimidación";
+	    		break;
+	    	case "popplio":
+	    		numPokedex = "728";
+	    		abilityHidden = "Voz fluida";
+	    		break;
+	    	//Galar
+	    	case "grookey":
+	    		numPokedex = "810";
+	    		abilityHidden = "Herbogénesis";
+	    		break;
+	    	case "scorbunny":
+	    		numPokedex = "813";
+	    		abilityHidden = "Líbero";
+	    		break;
+	    	case "sobble":
+	    		numPokedex = "816";
+	    		abilityHidden = "Francotirador";
+	    		break;
+	    	//Paldea
+	    	case "Sprigatito":
+	    		numPokedex = "906";
+	    		abilityHidden = "Mutatipo";
+	    		break;
+	    	case "Fuecoco":
+	    		numPokedex = "909";
+	    		abilityHidden = "Ignorante";
+	    		break;
+	    	default:
+	    		numPokedex = "912";
+	    		abilityHidden = "Autoestima";
+	    		break;
+	    }
+    	return (new Pokemon(numPokedex, name.substring(0, 1).toUpperCase() + name.substring(1, name.length()), type1, type2,
+				new Ability (ability1, ""), new Ability ("", ""), new Ability (abilityHidden, "")));
+	}
 }
